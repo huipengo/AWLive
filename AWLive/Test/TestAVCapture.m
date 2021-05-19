@@ -78,7 +78,7 @@ static NSString *sRtmpUrl = @"rtmp://192.168.1.135:1935/live/test";
     return self;
 }
 
--(void) createUI{
+- (void)createUI{
     [self.preview addSubview: self.avCapture.preview];
     self.avCapture.preview.center = self.preview.center;
     
@@ -120,7 +120,7 @@ static NSString *sRtmpUrl = @"rtmp://192.168.1.135:1935/live/test";
     return nil;
 }
 
--(void) onLayout{
+- (void)onLayout{
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     
     self.stateLabel.frame = CGRectMake(30, 130, 100, 30);
@@ -133,7 +133,7 @@ static NSString *sRtmpUrl = @"rtmp://192.168.1.135:1935/live/test";
     self.avCapture.preview.frame = self.preview.bounds;
 }
 
--(void) setStateText:(NSString *)stateText{
+- (void)setStateText:(NSString *)stateText{
     NSAttributedString *attributeString = [[NSAttributedString alloc] initWithString:stateText
                                                                           attributes:@{
                                                                                        NSForegroundColorAttributeName: [UIColor whiteColor],
@@ -188,7 +188,7 @@ static NSString *sRtmpUrl = @"rtmp://192.168.1.135:1935/live/test";
     }
 }
 
--(void) onStartClick{
+- (void)onStartClick{
     if (self.avCapture.isCapturing) {
         [self.startBtn setTitle:@"开始直播" forState:UIControlStateNormal];
         [self.avCapture stopCapture];
@@ -199,7 +199,7 @@ static NSString *sRtmpUrl = @"rtmp://192.168.1.135:1935/live/test";
     }
 }
 
--(void) onSwitchClick{
+- (void)onSwitchClick{
     [self.avCapture switchCamera];
 }
 

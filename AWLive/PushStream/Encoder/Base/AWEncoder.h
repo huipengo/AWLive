@@ -32,10 +32,10 @@ typedef enum : NSUInteger {
 @interface AWEncoder : NSObject
 @property (nonatomic, weak) AWEncoderManager *manager;
 //开始
--(void) open;
+- (void)open;
 //结束
--(void) close;
+- (void)close;
 //错误
--(void) onErrorWithCode:(AWEncoderErrorCode) code des:(NSString *) des;
+- (void)onErrorWithCode:(AWEncoderErrorCode) code des:(NSString *) des;
 
 @end

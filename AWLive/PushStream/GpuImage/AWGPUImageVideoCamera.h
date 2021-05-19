@@ -13,7 +13,7 @@
 
 @protocol AWGPUImageVideoCameraDelegate <NSObject>
 
--(void) processAudioSample:(CMSampleBufferRef)sampleBuffer;
+- (void)processAudioSample:(CMSampleBufferRef)sampleBuffer;
 
 @end
 
@@ -21,6 +21,6 @@
 
 @property (nonatomic, weak) id<AWGPUImageVideoCameraDelegate> awAudioDelegate;
 
--(void)setCaptureSessionPreset:(NSString *)captureSessionPreset;
+- (void)setCaptureSessionPreset:(NSString *)captureSessionPreset;
 
 @end

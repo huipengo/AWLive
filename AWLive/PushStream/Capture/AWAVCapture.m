@@ -78,23 +78,28 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     return self;
 }
 
--(void) onInit{}
+- (void)onInit { }
 
--(void) willEnterForeground{
+- (void)willEnterForeground {
     self.inBackground = NO;
 }
 
--(void) didEnterBackground{
+- (void)didEnterBackground {
     self.inBackground = YES;
 }
 
-//修改fps
--(void) updateFps:(NSInteger) fps{
+// 修改fps
+- (void)updateFps:(NSInteger)fps {
+    //获取当前capture设备
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     
+    // 遍历所有设备（前后摄像头）
     for (AVCaptureDevice *vDevice in videoDevices) {
+        // 获取当前支持的最大fps
         float maxRate = [(AVFrameRateRange *)[vDevice.activeFormat.videoSupportedFrameRateRanges objectAtIndex:0] maxFrameRate];
+        // 如果想要设置的fps小于或等于最大fps，就进行修改
         if (maxRate >= fps) {
+            // 实际修改fps的代码
             if ([vDevice lockForConfiguration:NULL]) {
                 vDevice.activeVideoMinFrameDuration = CMTimeMake(10, (int)(fps * 10));
                 vDevice.activeVideoMaxFrameDuration = vDevice.activeVideoMinFrameDuration;
@@ -132,7 +137,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     return YES;
 }
 
--(void) stopCapture{
+- (void)stopCapture{
     self.isCapturing = NO;
     self.isSpsPpsAndAudioSpecificConfigSent = NO;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -150,11 +155,11 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     });
 }
 
--(void) switchCamera{}
+- (void)switchCamera{}
 
--(void) onStopCapture{}
+- (void)onStopCapture{}
 
--(void) onStartCapture{}
+- (void)onStartCapture{}
 
 -(void)setisCapturing:(BOOL)isCapturing{
     if (_isCapturing == isCapturing) {
@@ -179,7 +184,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
 }
 
 //发送数据
--(void) sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
     if (_inBackground) {
         return;
     }
@@ -194,7 +199,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }];
 }
 
--(void) sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
     CFRetain(sampleBuffer);
     __weak typeof(self) weakSelf = self;
     [encodeQueue addOperationWithBlock:^{
@@ -206,7 +211,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }];
 }
 
--(void) sendVideoYuvData:(NSData *)yuvData toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendVideoYuvData:(NSData *)yuvData toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
     if (_inBackground) {
         return;
     }
@@ -220,7 +225,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }];
 }
 
--(void) sendAudioPcmData:(NSData *)pcmData toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendAudioPcmData:(NSData *)pcmData toEncodeQueue:(NSOperationQueue *) encodeQueue toSendQueue:(NSOperationQueue *) sendQueue{
     __weak typeof(self) weakSelf = self;
     [encodeQueue addOperationWithBlock:^{
         if (weakSelf.isCapturing) {
@@ -230,7 +235,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }];
 }
 
--(void) sendFlvVideoTag:(aw_flv_video_tag *)video_tag toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendFlvVideoTag:(aw_flv_video_tag *)video_tag toSendQueue:(NSOperationQueue *) sendQueue{
     if (_inBackground) {
         return;
     }
@@ -251,7 +256,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }
 }
 
--(void) sendFlvAudioTag:(aw_flv_audio_tag *)audio_tag toSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendFlvAudioTag:(aw_flv_audio_tag *)audio_tag toSendQueue:(NSOperationQueue *) sendQueue{
     __weak typeof(self) weakSelf = self;
     if(audio_tag){
         [sendQueue addOperationWithBlock:^{
@@ -269,7 +274,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
     }
 }
 
--(void) sendSpsPpsAndAudioSpecificConfigTagToSendQueue:(NSOperationQueue *) sendQueue{
+- (void)sendSpsPpsAndAudioSpecificConfigTagToSendQueue:(NSOperationQueue *) sendQueue{
     if (self.isSpsPpsAndAudioSpecificConfigSent) {
         return;
     }
@@ -295,26 +300,26 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
 }
 
 //使用rtmp协议发送数据
--(void) sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer{
+- (void)sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer{
     [self sendVideoSampleBuffer:sampleBuffer toEncodeQueue:self.encodeSampleOpQueue toSendQueue:self.sendSampleOpQueue];
 }
 
--(void) sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer{
+- (void)sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer{
     [self sendAudioSampleBuffer:sampleBuffer toEncodeQueue:self.encodeSampleOpQueue toSendQueue:self.sendSampleOpQueue];
 }
 
--(void) sendVideoYuvData:(NSData *)videoData{
+- (void)sendVideoYuvData:(NSData *)videoData{
     [self sendVideoYuvData:(NSData *)videoData toEncodeQueue:self.encodeSampleOpQueue toSendQueue:self.sendSampleOpQueue];
 }
--(void) sendAudioPcmData:(NSData *)audioData{
+- (void)sendAudioPcmData:(NSData *)audioData{
     [self sendAudioPcmData:audioData toEncodeQueue:self.encodeSampleOpQueue toSendQueue:self.sendSampleOpQueue];
 }
 
--(void) sendFlvVideoTag:(aw_flv_video_tag *)flvVideoTag{
+- (void)sendFlvVideoTag:(aw_flv_video_tag *)flvVideoTag{
     [self sendFlvVideoTag:flvVideoTag toSendQueue:self.sendSampleOpQueue];
 }
 
--(void) sendFlvAudioTag:(aw_flv_audio_tag *)flvAudioTag{
+- (void)sendFlvAudioTag:(aw_flv_audio_tag *)flvAudioTag{
     [self sendFlvAudioTag:flvAudioTag toSendQueue:self.sendSampleOpQueue];
 }
 

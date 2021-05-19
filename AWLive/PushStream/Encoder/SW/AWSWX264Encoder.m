@@ -16,7 +16,7 @@
     return aw_sw_encoder_create_x264_sps_pps_tag();
 }
 
--(void) open{
+- (void)open{
     aw_x264_config x264_config = self.videoConfig.x264Config;
     aw_sw_encoder_open_x264_encoder(&x264_config);
 }

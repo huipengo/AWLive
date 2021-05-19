@@ -18,7 +18,7 @@
 
 @implementation AWEncoderManager
 
--(void) openWithAudioConfig:(AWAudioConfig *) audioConfig videoConfig:(AWVideoConfig *) videoConfig{
+- (void)openWithAudioConfig:(AWAudioConfig *) audioConfig videoConfig:(AWVideoConfig *) videoConfig{
     switch (self.audioEncoderType) {
         case AWAudioEncoderTypeHWAACLC:
             self.audioEncoder = [[AWHWAACEncoder alloc] init];

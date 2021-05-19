@@ -18,7 +18,7 @@
     return aw_sw_encoder_create_faac_specific_config_tag();
 }
 
--(void) open{
+- (void)open{
     aw_faac_config faac_config = self.audioConfig.faacConfig;
     aw_sw_encoder_open_faac_encoder(&faac_config);
 }

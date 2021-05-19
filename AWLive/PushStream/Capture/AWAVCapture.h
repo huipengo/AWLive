@@ -20,7 +20,7 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
 
 @class AWAVCapture;
 @protocol AWAVCaptureDelegate <NSObject>
--(void) avCapture:(AWAVCapture *)capture stateChangeFrom:(aw_rtmp_state) fromState toState:(aw_rtmp_state) toState;
+- (void)avCapture:(AWAVCapture *)capture stateChangeFrom:(aw_rtmp_state) fromState toState:(aw_rtmp_state) toState;
 @end
 
 @interface AWAVCapture : NSObject
@@ -48,34 +48,34 @@ extern void aw_rtmp_state_changed_cb_in_oc(aw_rtmp_state old_state, aw_rtmp_stat
 -(instancetype) initWithVideoConfig:(AWVideoConfig *)videoConfig audioConfig:(AWAudioConfig *)audioConfig;
 
 //初始化
--(void) onInit;
+- (void)onInit;
 
 //修改fps
--(void) updateFps:(NSInteger) fps;
+- (void)updateFps:(NSInteger) fps;
 
 //切换摄像头
--(void) switchCamera;
+- (void)switchCamera;
 
 //停止capture
--(void) stopCapture;
+- (void)stopCapture;
 
 //停止
--(void) onStopCapture;
+- (void)onStopCapture;
 
 //用户开始
--(void) onStartCapture;
+- (void)onStartCapture;
 
 //开始capture
 -(BOOL) startCaptureWithRtmpUrl:(NSString *)rtmpUrl;
 
 //使用rtmp协议发送数据
--(void) sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer;
--(void) sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer;
+- (void)sendVideoSampleBuffer:(CMSampleBufferRef) sampleBuffer;
+- (void)sendAudioSampleBuffer:(CMSampleBufferRef) sampleBuffer;
 
--(void) sendVideoYuvData:(NSData *)videoData;
--(void) sendAudioPcmData:(NSData *)audioData;
+- (void)sendVideoYuvData:(NSData *)videoData;
+- (void)sendAudioPcmData:(NSData *)audioData;
 
--(void) sendFlvVideoTag:(aw_flv_video_tag *)flvVideoTag;
--(void) sendFlvAudioTag:(aw_flv_audio_tag *)flvAudioTag;
+- (void)sendFlvVideoTag:(aw_flv_video_tag *)flvVideoTag;
+- (void)sendFlvAudioTag:(aw_flv_audio_tag *)flvAudioTag;
 
 @end

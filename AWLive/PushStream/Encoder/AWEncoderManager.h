@@ -41,7 +41,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, unsafe_unretained) uint32_t timestamp;
 
 //开启关闭
--(void) openWithAudioConfig:(AWAudioConfig *) audioConfig videoConfig:(AWVideoConfig *) videoConfig;
--(void) close;
+- (void)openWithAudioConfig:(AWAudioConfig *) audioConfig videoConfig:(AWVideoConfig *) videoConfig;
+- (void)close;
 
 @end
